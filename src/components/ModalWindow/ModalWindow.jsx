@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from '../ModalWindow/ModalWindow.module.css';
+import PropTypes from 'prop-types';
 
 const body = document.querySelector('body');
 
