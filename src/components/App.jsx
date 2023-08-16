@@ -23,9 +23,16 @@ class App extends Component {
   componentDidUpdate(_, prevState) {
     const previousInput = prevState.searchInput;
     const nextInput = this.state.searchInput;
+    const previousPage = prevState.page;
     const nextPage = this.state.page;
 
-    if (previousInput !== nextInput) {
+    if (previousInput !== nextInput || previousPage !== nextPage) {
+      
+      // Очищаем список изображений при новом поисковом запросе
+      if (previousInput !== nextInput) {
+        this.setState({ images: [] });
+      }
+
       this.setState({ isLoading: true });
       PixaBay.fetchImages(nextInput, nextPage)
         .then(({ hits }) => {
@@ -35,11 +42,10 @@ class App extends Component {
               error: `could not find image by request ${nextInput}`,
             });
           }
-          this.setState({
-            images: hits,
-            page: 1,
+          this.setState(prevState => ({
+            images: [...prevState.images, ...hits],
             status: 'resolved',
-          });
+          }));
         })
         .catch(error => this.setState({ error, status: 'rejected' }))
         .finally(() => this.setState({ isLoading: false }));
@@ -47,22 +53,10 @@ class App extends Component {
   }
   
   onLoadMore = () => {
-    PixaBay.fetchImages(this.state.searchInput, this.state.page + 1).then(
-      ({ hits }) => {
-        if (hits.length === 0) {
-          return this.setState({
-            status: 'rejected',
-            error: `could not find image by request ${this.state.searchInput}`,
-          });
-        }
-        this.setState(({ images, page }) => ({
-          images: [...images, ...hits],
-          page: page + 1,
-          status: 'resolved',
-        }));
-      }
-    );
-  };
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+  }
 
   onSearch = searchInput => {
     this.setState({ searchInput, page: 1, error: null });
