@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Searchbar from './SearchBar/Searchbar';
 import PixaBay from '../API/PixaBay';
+import Searchbar from './SearchBar/Searchbar';
 import ModalWindow from './ModalWindow/ModalWindow';
 import ImageGallery from './ImageGallery/ImageGallery';
 import LoaderSpinner from './Loader/Loader';
@@ -103,7 +103,7 @@ class App extends Component {
           <ModalWindow onClose={this.modalWindowClose} src={largeimg} />
         )}
         {error && <p className={styles.error}>{error}</p>}
-        <ToastContainer autoClose={3000} />
+        <ToastContainer autoClose={2000} />
       </div>
     );
   }
