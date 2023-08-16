@@ -45,6 +45,7 @@ class App extends Component {
         .finally(() => this.setState({ isLoading: false }));
     }
   }
+  
   onLoadMore = () => {
     PixaBay.fetchImages(this.state.searchInput, this.state.page + 1).then(
       ({ hits }) => {
@@ -81,6 +82,7 @@ class App extends Component {
       largeimg: largeimg,
     }));
   };
+
   modalWindowClose = () => {
     this.setState({
       largeimg: '',
@@ -106,4 +108,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

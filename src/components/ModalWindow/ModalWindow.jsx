@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styles from '../ModalWindow/ModalWindow.module.css';
+
 const body = document.querySelector('body');
+
 export default class ModalWindow extends Component {
   state = {
     loading: false,
@@ -9,11 +11,12 @@ export default class ModalWindow extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleCloseModal);
     body.classList.add('no-scroll');
-  }
+  };
+
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleCloseModal);
     body.classList.remove('no-scroll');
-  }
+  };
 
   handleCloseModal = event => {
     if (event.code === 'Escape') {
@@ -26,6 +29,7 @@ export default class ModalWindow extends Component {
       this.props.onClose();
     }
   };
+
   render() {
     const { src, alt } = this.props;
     return (
@@ -36,4 +40,10 @@ export default class ModalWindow extends Component {
       </div>
     );
   }
+};
+
+ModalWindow.propTypes = {
+  alt: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
